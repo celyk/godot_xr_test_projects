@@ -1,41 +1,41 @@
-extends Spatial
+extends Node3D
 
 var arkit = null
 var anchor = preload("res://Anchor.tscn")
 
 func tracker_added(p_name, p_type, p_id):
-	if p_type == ARVRServer.TRACKER_ANCHOR:
+	if p_type == XRServer.TRACKER_ANCHOR:
 		var name = "anchor_" + str(p_id)
 		print("Adding " + name + " (" + p_name + ")")
 		
-		var new_anchor = anchor.instance()
+		var new_anchor = anchor.instantiate()
 		new_anchor.anchor_id = p_id
 		new_anchor.name = name
 		
-		$ARVROrigin.add_child(new_anchor)
+		$XROrigin3D.add_child(new_anchor)
 
 func tracker_removed(p_name, p_type, p_id):
-	if p_type == ARVRServer.TRACKER_ANCHOR:
+	if p_type == XRServer.TRACKER_ANCHOR:
 		var name = "anchor_" + str(p_id)
 		print("Removing " + name + " (" + p_name + ")")
 
-		var old_anchor = $ARVROrigin.find_node(name, false, false)
+		var old_anchor = $XROrigin3D.find_child(name, false, false)
 		if old_anchor:
-			$ARVROrigin.remove_child(old_anchor)
+			$XROrigin3D.remove_child(old_anchor)
 		else:
 			print("Couldn't find " + name)
 
 func _ready():
 	# Register some signals we need
-	ARVRServer.connect("tracker_added", self, "tracker_added")
-	ARVRServer.connect("tracker_removed", self, "tracker_removed")
+	XRServer.connect("tracker_added", Callable(self, "tracker_added"))
+	XRServer.connect("tracker_removed", Callable(self, "tracker_removed"))
 	
 	# Hide our godotballs for now
 	$GodotBalls.visible = false
 	
 	# Called every time the node is added to the scene.
 	# Initialization here
-	arkit = ARVRServer.find_interface('ARKit')
+	arkit = XRServer.find_interface('ARKit')
 	if arkit:
 		print("Found ARKit")
 		arkit.initialize()
@@ -47,7 +47,7 @@ func _ready():
 		get_viewport().arvr = true
 		
 		# make sure our environment is set to the right camera feed
-		get_viewport().get_camera().environment.background_camera_feed_id = arkit.get_camera_feed_id()
+		get_viewport().get_camera_3d().environment.background_camera_feed_id = arkit.get_camera_feed_id()
 	else:
 		print("Couldn't find ARKit")
 		get_node("toggle_plane_detection").set_text("No ARKIT")
@@ -82,16 +82,16 @@ func _process(delta):
 
 func _input(event):
 	if event.is_class("InputEventMouseButton") and event.pressed:
-		var camera = get_node("ARVROrigin/ARVRCamera")
-		var space = camera.get_world().get_space()
-		var state = PhysicsServer.space_get_direct_state(space)
+		var camera = get_node("XROrigin3D/XRCamera3D")
+		var space = camera.get_world_3d().get_space()
+		var state = PhysicsServer3D.space_get_direct_state(space)
 		
 		var from = camera.project_ray_origin(event.position)
 		var direction = camera.project_ray_normal(event.position)
 		
 		var result = state.intersect_ray(from, from + (direction * 100.0))
-		if !result.empty():
-			var transform = Transform()
+		if !result.is_empty():
+			var transform = Transform3D()
 			
 			# position at our intersection point
 			transform.origin = result["position"]

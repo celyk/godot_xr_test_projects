@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://godot_ball.mesh" type="ArrayMesh" id=1]
-[ext_resource path="res://texture_wood.png" type="Texture" id=2]
+[ext_resource path="res://texture_wood.png" type="Texture2D" id=2]
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="StandardMaterial3D" id=1]
 
 flags_transparent = false
 flags_unshaded = true
@@ -49,7 +49,7 @@ uv2_triplanar = false
 uv2_triplanar_sharpness = 1.0
 _sections_unfolded = [ "Albedo", "Depth", "Flags", "NormalMap", "Parameters" ]
 
-[sub_resource type="SpatialMaterial" id=2]
+[sub_resource type="StandardMaterial3D" id=2]
 
 flags_transparent = false
 flags_unshaded = false
@@ -93,7 +93,7 @@ uv2_offset = Vector3( 0, 0, 0 )
 uv2_triplanar = false
 uv2_triplanar_sharpness = 1.0
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="StandardMaterial3D" id=3]
 
 flags_transparent = false
 flags_unshaded = false
@@ -138,7 +138,7 @@ uv2_triplanar = false
 uv2_triplanar_sharpness = 1.0
 _sections_unfolded = [ "Albedo" ]
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="StandardMaterial3D" id=4]
 
 flags_transparent = false
 flags_unshaded = false
@@ -183,9 +183,9 @@ uv2_triplanar = false
 uv2_triplanar_sharpness = 1.0
 _sections_unfolded = [ "Albedo" ]
 
-[node name="WoodBall" type="MeshInstance"]
+[node name="WoodBall" type="MeshInstance3D"]
 
-transform = Transform( 0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, -0.134659, 0, 0 )
+transform = Transform3D( 0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, -0.134659, 0, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -202,6 +202,6 @@ material/0 = SubResource( 1 )
 material/1 = SubResource( 2 )
 material/2 = SubResource( 3 )
 material/3 = SubResource( 4 )
-_sections_unfolded = [ "Transform", "Visibility", "material" ]
+_sections_unfolded = [ "Transform3D", "Visibility", "material" ]
 
 

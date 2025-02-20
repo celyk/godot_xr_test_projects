@@ -1,6 +1,6 @@
 shader_type spatial;
 render_mode cull_disabled;
-uniform vec4 albedo : hint_color;
+uniform vec4 albedo : source_color;
 uniform float specular : hint_range(0,1);
 uniform float metallic : hint_range(0,1);
 uniform float roughness : hint_range(0,1);
