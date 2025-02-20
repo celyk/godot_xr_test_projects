@@ -37,7 +37,9 @@ mesh = SubResource("2")
 disabled = true
 
 [node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20056, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0513681, 0)
+pixel_size = 0.0005
+billboard = 1
 text = "Anchor"
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]

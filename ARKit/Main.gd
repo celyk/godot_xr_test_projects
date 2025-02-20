@@ -3,10 +3,11 @@ extends Node3D
 var arkit = null
 var anchor = preload("res://Anchor.tscn")
 
+var _num_trackers := 0
 func _on_tracker_added(p_name, p_type):
 	if p_type == XRServer.TRACKER_ANCHOR:
 		var p_id = 0
-		var name = "anchor_" + str(p_id)
+		var name = "anchor_" + p_name
 		print("Adding " + name + " (" + p_name + ")")
 		
 		var new_anchor = anchor.instantiate()
@@ -18,7 +19,7 @@ func _on_tracker_added(p_name, p_type):
 func _on_tracker_removed(p_name, p_type):
 	if p_type == XRServer.TRACKER_ANCHOR:
 		var p_id = 0
-		var name = "anchor_" + str(p_id)
+		var name = "anchor_" + p_name
 		print("Removing " + name + " (" + p_name + ")")
 
 		var old_anchor = $XROrigin3D.find_child(name, false, false)
