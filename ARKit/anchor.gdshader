@@ -1,9 +1,9 @@
 shader_type spatial;
-render_mode cull_disabled;
+render_mode cull_disabled;/*
 uniform vec4 albedo : source_color;
-uniform float specular : hint_range(0,1);
-uniform float metallic : hint_range(0,1);
-uniform float roughness : hint_range(0,1);
+uniform float specular : hint_range(0.0,1.0) = 0.0;
+uniform float metallic : hint_range(0.0,1.0) = 0.0;
+uniform float roughness : hint_range(0.0,1.0) = 1.0;
 
 void fragment() {
 	ALBEDO = albedo.rgb;
@@ -16,4 +16,4 @@ void fragment() {
 void light() {
 	DIFFUSE_LIGHT = ALBEDO;
 	ALPHA = min(ALPHA, clamp(1.0 - length(ATTENUATION), 0.0, 1.0));
-}
+}*/

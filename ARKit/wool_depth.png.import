@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dpiexks5hqnoi"
 path.s3tc="res://.godot/imported/wool_depth.png-b54a8703f10017b4c0db1af616cbeada.s3tc.ctex"
+path.etc2="res://.godot/imported/wool_depth.png-b54a8703f10017b4c0db1af616cbeada.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://wool_depth.png"
-dest_files=["res://.godot/imported/wool_depth.png-b54a8703f10017b4c0db1af616cbeada.s3tc.ctex"]
+dest_files=["res://.godot/imported/wool_depth.png-b54a8703f10017b4c0db1af616cbeada.s3tc.ctex", "res://.godot/imported/wool_depth.png-b54a8703f10017b4c0db1af616cbeada.etc2.ctex"]
 
 [params]
 
