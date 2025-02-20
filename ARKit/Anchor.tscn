@@ -1,32 +1,45 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://dyos3q1a4ie2y"]
 
-[ext_resource path="res://anchor.gd" type="Script" id=1]
-[ext_resource path="res://anchor_material.tres" type="Material" id=2]
+[ext_resource type="Script" uid="uid://c0p1py4bl26eu" path="res://anchor.gd" id="1"]
+[ext_resource type="Material" path="res://anchor_material.tres" id="2"]
 
-[sub_resource type="StandardMaterial3D" id=1]
-flags_transparent = true
-params_cull_mode = 2
-albedo_color = Color( 0.7, 0.7, 0.7, 0.336078 )
+[sub_resource type="StandardMaterial3D" id="1"]
+transparency = 1
+cull_mode = 2
+albedo_color = Color(0.7, 0.7, 0.7, 0.336078)
 metallic = 0.1
 roughness = 0.0
 
-[sub_resource type="PlaneMesh" id=2]
-material = SubResource( 1 )
-size = Vector2( 1, 1 )
+[sub_resource type="PlaneMesh" id="2"]
+material = SubResource("1")
+size = Vector2(1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kuwsd"]
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_kuwsd"]
+radius = 0.02
+height = 0.04
 
 [node name="XRAnchor3D" type="XRAnchor3D"]
-anchor_id = 0
-script = ExtResource( 1 )
-material = ExtResource( 2 )
+script = ExtResource("1")
+material = ExtResource("2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 visible = false
 cast_shadow = 0
-mesh = SubResource( 2 )
-material/0 = null
+mesh = SubResource("2")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 disabled = true
-[connection signal="mesh_updated" from="." to="." method="_on_ARVRAnchor_mesh_updated"]
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20056, 0)
+text = "Anchor"
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_kuwsd")
+mesh = SubResource("SphereMesh_kuwsd")

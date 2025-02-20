@@ -3,8 +3,9 @@ extends Node3D
 var arkit = null
 var anchor = preload("res://Anchor.tscn")
 
-func tracker_added(p_name, p_type, p_id):
+func _on_tracker_added(p_name, p_type):
 	if p_type == XRServer.TRACKER_ANCHOR:
+		var p_id = 0
 		var name = "anchor_" + str(p_id)
 		print("Adding " + name + " (" + p_name + ")")
 		
@@ -14,8 +15,9 @@ func tracker_added(p_name, p_type, p_id):
 		
 		$XROrigin3D.add_child(new_anchor)
 
-func tracker_removed(p_name, p_type, p_id):
+func _on_tracker_removed(p_name, p_type):
 	if p_type == XRServer.TRACKER_ANCHOR:
+		var p_id = 0
 		var name = "anchor_" + str(p_id)
 		print("Removing " + name + " (" + p_name + ")")
 
@@ -27,8 +29,8 @@ func tracker_removed(p_name, p_type, p_id):
 
 func _ready():
 	# Register some signals we need
-	XRServer.connect("tracker_added", Callable(self, "tracker_added"))
-	XRServer.connect("tracker_removed", Callable(self, "tracker_removed"))
+	XRServer.connect("tracker_added", Callable(self, "_on_tracker_added"))
+	XRServer.connect("tracker_removed", Callable(self, "_on_tracker_removed"))
 	
 	# Hide our godotballs for now
 	$GodotBalls.visible = false
@@ -44,7 +46,7 @@ func _ready():
 		get_node("toggle_plane_detection").set_text("Turn plane detection off")
 		
 		# we're doing AR :)
-		get_viewport().arvr = true
+		get_viewport().use_xr = true
 		
 		# make sure our environment is set to the right camera feed
 		get_viewport().get_camera_3d().environment.background_camera_feed_id = arkit.get_camera_feed_id()
@@ -89,7 +91,8 @@ func _input(event):
 		var from = camera.project_ray_origin(event.position)
 		var direction = camera.project_ray_normal(event.position)
 		
-		var result = state.intersect_ray(from, from + (direction * 100.0))
+		var ray_query := PhysicsRayQueryParameters3D.create(from, from + (direction * 100.0))
+		var result = state.intersect_ray(ray_query)
 		if !result.is_empty():
 			var transform = Transform3D()
 			
