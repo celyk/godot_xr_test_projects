@@ -11,8 +11,9 @@ func _on_tracker_added(p_name, p_type):
 		print("Adding " + name + " (" + p_name + ")")
 		
 		var new_anchor = anchor.instantiate()
-		new_anchor.anchor_id = p_id
+		new_anchor.tracker = p_name
 		new_anchor.name = name
+		#new_anchor.pose = "default"
 		
 		$XROrigin3D.add_child(new_anchor)
 

@@ -63,4 +63,6 @@ shadow_enabled = true
 shadow_bias = 0.01
 directional_shadow_max_distance = 25.0
 
+[node name="XRAnchor3D" type="XRAnchor3D" parent="."]
+
 [connection signal="pressed" from="toggle_plane_detection" to="." method="_on_toggle_plane_detection"]

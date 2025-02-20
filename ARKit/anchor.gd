@@ -1,7 +1,7 @@
 extends XRAnchor3D
 
 @export var material: Material = null: get = get_material, set = set_material
-var anchor_id : int = 0
+#var anchor_id : int = 0
 
 func set_material(p_new_material):
 	material = p_new_material
