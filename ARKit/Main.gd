@@ -30,7 +30,6 @@ func _on_tracker_added(p_name, p_type):
 		$XROrigin3D.add_child(new_anchor)
 
 func _on_tracker_updated(tracker_name: StringName, type: int):
-	print("tracker_upated")
 	if type == XRServer.TRACKER_ANCHOR:
 		var tracker = XRServer.get_tracker(tracker_name)
 		if tracker.get_class() == "ARKitAnchorMesh":
@@ -52,7 +51,7 @@ func _ready():
 	# Register some signals we need
 	XRServer.connect("tracker_added", Callable(self, "_on_tracker_added"))
 	XRServer.connect("tracker_updated", Callable(self, "_on_tracker_updated"))
-	XRServer.connect("tracker_removed", Callable(self, "_on_tracker_removed"))
+	#XRServer.connect("tracker_removed", Callable(self, "_on_tracker_removed"))
 	
 	# Hide our godotballs for now
 	$GodotBalls.visible = false
@@ -103,23 +102,44 @@ func _process(delta):
 			info_text += "Unknown tracking status\n"
 			
 	$Info.text = info_text
+	
+	var camera : Camera3D = get_viewport().get_camera_3d()
+	var projection : Projection = XRServer.primary_interface.get_projection_for_view(0,get_viewport().size.aspect(), 0.0, 1.0 )
+	var fov : float = projection.get_fov()
+	#camera.fov = 100
+	
+	#print("Fov: ", get_viewport().get_camera_3d().fov)
+	#print("Actual fov: ", XRServer.primary_interface.get_projection_for_view(0,get_viewport().size.aspect(), 0.0, 1.0 ).get_fov() )
 
 func _input(event):
-	if event.is_class("InputEventMouseButton") and event.pressed:
+	if event is InputEventMouse: # and event.pressed:
 		var camera = get_node("XROrigin3D/XRCamera3D")
 		var space = camera.get_world_3d().get_space()
 		var state = PhysicsServer3D.space_get_direct_state(space)
+		
+		$ColorRect.position = event.position
 		
 		var from = camera.project_ray_origin(event.position)
 		var direction = camera.project_ray_normal(event.position)
 		
 		var ray_query := PhysicsRayQueryParameters3D.create(from, from + (direction * 100.0))
 		var result = state.intersect_ray(ray_query)
-		if !result.is_empty():
+		#if !result.is_empty():
+			#var transform = Transform3D()
+			#
+			## position at our intersection point
+			#transform.origin = result["position"]
+			#
+			## and apply to our godot balls
+			#$GodotBalls.global_transform = transform
+			#$GodotBalls.visible = true
+		
+		var intersections : Array = XRServer.primary_interface.raycast(event.position)
+		if intersections:
 			var transform = Transform3D()
 			
 			# position at our intersection point
-			transform.origin = result["position"]
+			transform.origin = intersections[0].origin
 			
 			# and apply to our godot balls
 			$GodotBalls.global_transform = transform

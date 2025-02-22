@@ -1,7 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://dq6hwky5o3tbr"]
 
-[ext_resource type="ArrayMesh" path="res://godot_ball.mesh" id="1"]
+[ext_resource type="PackedScene" uid="uid://bm0p0ox5aufyb" path="res://models/godot_ball.blend" id="2_i8xpr"]
 
 [node name="WoodBall" type="MeshInstance3D"]
 transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, -0.134659, 0, 0)
-mesh = ExtResource("1")
+
+[node name="godot_ball" parent="." instance=ExtResource("2_i8xpr")]
+transform = Transform3D(33.3333, 0, 0, 0, 33.3333, 0, 0, 0, 33.3333, 0, 0, 0)

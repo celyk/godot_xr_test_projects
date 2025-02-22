@@ -1,10 +1,11 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://yrb756bukuf0"]
 
-[ext_resource path="res://anchor.gdshader" type="Shader" id=1]
+[ext_resource type="Shader" uid="uid://b3a8bln20y6q5" path="res://anchor.gdshader" id="1"]
 
 [resource]
-shader = ExtResource( 1 )
-shader_param/albedo = null
-shader_param/specular = null
-shader_param/metallic = null
-shader_param/roughness = 1.0
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/albedo = Color(0, 0, 0, 1)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 1.0

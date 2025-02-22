@@ -24,8 +24,6 @@ func on_ARVRAnchor_mesh_updated(tracker_name: StringName, type: int):
 		mesh = my_tracker.mesh
 		print(mesh)
 	
-	print("mesh update", mesh)
-	
 	if mesh:
 		# update our mesh
 		$MeshInstance3D.mesh = mesh

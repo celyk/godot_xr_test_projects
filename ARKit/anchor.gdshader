@@ -1,19 +1,20 @@
 shader_type spatial;
-render_mode cull_disabled;/*
-uniform vec4 albedo : source_color;
-uniform float specular : hint_range(0.0,1.0) = 0.0;
-uniform float metallic : hint_range(0.0,1.0) = 0.0;
-uniform float roughness : hint_range(0.0,1.0) = 1.0;
+render_mode cull_disabled;
+
+render_mode blend_mul;
 
 void fragment() {
-	ALBEDO = albedo.rgb;
-	METALLIC = metallic;
-	ROUGHNESS = roughness;
-	SPECULAR = specular;
+	
 	ALPHA = 1.0;
 }
 
 void light() {
-	DIFFUSE_LIGHT = ALBEDO;
-	ALPHA = min(ALPHA, clamp(1.0 - length(ATTENUATION), 0.0, 1.0));
-}*/
+	float shadow = min(ALPHA, clamp(1.0 - length(ATTENUATION), 0.0, 1.0));
+	DIFFUSE_LIGHT = ALBEDO;;
+	DIFFUSE_LIGHT *= 0.3 * (1.0 - shadow*0.9);
+	
+	//DIFFUSE_LIGHT = vec3(1);
+	//DIFFUSE_LIGHT += min(ALPHA, clamp(1.0 - length(ATTENUATION), 0.0, 1.0));
+	//ALPHA = min(ALPHA, clamp(1.0 - length(ATTENUATION), 0.0, 1.0));
+	//ALPHA = .1;
+}
