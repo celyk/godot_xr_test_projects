@@ -11,7 +11,21 @@ func set_material(p_new_material):
 func get_material():
 	return material
 
-func _on_ARVRAnchor_mesh_updated(mesh):
+func _ready() -> void:
+	XRServer.tracker_updated.connect(on_ARVRAnchor_mesh_updated)
+
+func on_ARVRAnchor_mesh_updated(tracker_name: StringName, type: int):
+	if tracker_name != tracker: return
+	
+	var my_tracker : XRTracker = XRServer.get_tracker(tracker_name)
+	
+	var mesh : Mesh
+	if my_tracker.get_class() == "ARKitAnchorMesh":
+		mesh = my_tracker.mesh
+		print(mesh)
+	
+	print("mesh update", mesh)
+	
 	if mesh:
 		# update our mesh
 		$MeshInstance3D.mesh = mesh

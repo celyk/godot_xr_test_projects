@@ -6,6 +6,8 @@ var anchor = preload("res://Anchor.tscn")
 var _num_trackers := 0
 func _on_tracker_added(p_name, p_type):
 	if p_type == XRServer.TRACKER_ANCHOR:
+		var tracker = XRServer.get_tracker(p_name)
+		
 		var p_id = 0
 		var name = "anchor_" + p_name
 		print("Adding " + name + " (" + p_name + ")")
@@ -15,7 +17,24 @@ func _on_tracker_added(p_name, p_type):
 		new_anchor.name = name
 		#new_anchor.pose = "default"
 		
+		if tracker.get_class() == "ARKitAnchorMesh":
+			print("Yes, tracker is an ARKitAnchorMesh")
+			var mesh_instance := MeshInstance3D.new()
+			mesh_instance.mesh = tracker.mesh
+			print("Tracker mesh: ", tracker.mesh)
+			#print("Tracker facees: ", tracker.mesh.get_faces())
+			#new_anchor.add_child(mesh_instance)
+			
+			#XRServer.tracker_updated.connect(new_anchor.on_ARVRAnchor_mesh_updated)
+		
 		$XROrigin3D.add_child(new_anchor)
+
+func _on_tracker_updated(tracker_name: StringName, type: int):
+	print("tracker_upated")
+	if type == XRServer.TRACKER_ANCHOR:
+		var tracker = XRServer.get_tracker(tracker_name)
+		if tracker.get_class() == "ARKitAnchorMesh":
+			print("Yes, tracker updating")
 
 func _on_tracker_removed(p_name, p_type):
 	if p_type == XRServer.TRACKER_ANCHOR:
@@ -32,6 +51,7 @@ func _on_tracker_removed(p_name, p_type):
 func _ready():
 	# Register some signals we need
 	XRServer.connect("tracker_added", Callable(self, "_on_tracker_added"))
+	XRServer.connect("tracker_updated", Callable(self, "_on_tracker_updated"))
 	XRServer.connect("tracker_removed", Callable(self, "_on_tracker_removed"))
 	
 	# Hide our godotballs for now
