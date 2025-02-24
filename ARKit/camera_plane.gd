@@ -58,20 +58,3 @@ func _setup_feed():
 	#material.set_shader_parameter("viewport_size", get_viewport().size)
 	
 	material.set_shader_parameter("feed_transform", camera.feed_transform)
-	print(camera.feed_transform)
-	
-	var camera_transform : Transform3D = XRServer.get_hmd_transform()
-	
-	#var projection_matrix : Projection = get_proj
-	var MVP : Transform3D = camera_transform.inverse()
-	material.set_shader_parameter("MVP", MVP)
-	
-	desired_camera_transform.origin = camera_transform.origin
-	desired_camera_transform.basis = desired_camera_transform.basis.slerp(camera_transform.basis, (20 - $"../../../Control/Slider".value) * get_process_delta_time()).orthonormalized()
-	
-	xr_origin_3d.global_transform = Transform3D()
-	xr_origin_3d.global_transform = (xr_origin_3d.global_transform * desired_camera_transform * (xr_origin_3d.global_transform * camera_transform).inverse() * xr_origin_3d.global_transform).orthonormalized()
-	
-	#$Label.text = str(camera.feed_transform)
-	
-	_prev_camera_transform = camera_transform

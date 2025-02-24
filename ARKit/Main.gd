@@ -51,7 +51,7 @@ func _ready():
 	# Register some signals we need
 	XRServer.connect("tracker_added", Callable(self, "_on_tracker_added"))
 	XRServer.connect("tracker_updated", Callable(self, "_on_tracker_updated"))
-	#XRServer.connect("tracker_removed", Callable(self, "_on_tracker_removed"))
+	XRServer.connect("tracker_removed", Callable(self, "_on_tracker_removed"))
 	
 	# Hide our godotballs for now
 	$GodotBalls.visible = false
@@ -64,6 +64,7 @@ func _ready():
 		arkit.initialize()
 		
 		arkit.ar_is_anchor_detection_enabled = true
+		arkit.light_estimation = true
 		get_node("toggle_plane_detection").set_text("Turn plane detection off")
 		
 		# we're doing AR :)
@@ -87,7 +88,12 @@ func _on_toggle_plane_detection():
 			
 func _process(delta):
 	var info_text = "FPS: " + str(Engine.get_frames_per_second()) + "\n"
-
+	
+	if XRServer.primary_interface:
+		info_text += "Ambient intensity: " + str(XRServer.primary_interface.get_ambient_intensity()) + "\n"
+		info_text += "Ambient color temperature: " + str(XRServer.primary_interface.get_ambient_color_temperature()) + "\n"
+		info_text += "Exposure: " + str(XRServer.primary_interface.get_exposure_offset()) + "\n"
+	
 	if arkit:
 		var status = arkit.get_tracking_status() 
 		if status == 4:
